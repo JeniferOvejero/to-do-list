@@ -16,6 +16,9 @@ body{
     width: 100%;
 }
 
+#div-filtro{
+    padding: 16px;
+}
 ul {
     list-style-type: none;
     padding-inline: 16px;

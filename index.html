@@ -17,10 +17,16 @@
                 id="nova-tarefa"/>
             <button id="adiciona-tarefa" type="button">Adicionar</button>
         </div>
-
+        <div id="div-filtro">
+            <input type="radio" id="filtro-todas" name="filtro" class="filtro" checked/>
+            <label for="filtro-todas">todas</label>
+            <input type="radio" id="filtro-incompletas" name="filtro" class="filtro"/>
+            <label for="filtro-incompletas">incompletas</label>
+            <input type="radio" id="filtro-completas" name="filtro" class="filtro"/>
+            <label for="filtro-completas">completas</label>
+        </div>
         <div id="div-lista">
             <ul id="lista-tarefas">
-                
             </ul>
         </div>
     </div>

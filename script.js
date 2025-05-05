@@ -2,7 +2,29 @@ document.addEventListener('DOMContentLoaded', function(){
     const input = document.getElementById('nova-tarefa');
     const botao = document.getElementById('adiciona-tarefa');
     const lista = document.getElementById('lista-tarefas');
-    
+    const filtro = document.getElementById('div-filtro');
+
+    function filtrarTarefas(){
+        const filtroTodas = document.getElementById('filtro-todas').checked;
+        const filtroIncompletas = document.getElementById('filtro-incompletas').checked;
+        const filtroCompletas = document.getElementById('filtro-completas').checked;
+
+        const tarefasArmazenadas = JSON.parse(localStorage.getItem('tarefas')) || [];
+
+        lista.innerHTML = '';
+
+        tarefasArmazenadas.forEach(tarefa => {
+            const deveExibir =
+                (filtroTodas) ||
+                (filtroIncompletas && !tarefa.concluida) ||
+                (filtroCompletas && tarefa.concluida);
+            
+            if (deveExibir){
+                criarItem(tarefa);
+            }
+        })
+    }
+
     function criarItem(tarefa) {
         const li = document.createElement('li');
         li.className = 'tarefa-item';
@@ -29,6 +51,11 @@ document.addEventListener('DOMContentLoaded', function(){
 
     carregarTarefas();
 
+    filtro.addEventListener('change', function(event){
+        if (event.target && event.target.matches('input[type="radio"].filtro')) {
+            filtrarTarefas();
+        }
+    })
     //Adicionar tarefas.
     botao.addEventListener('click', function() {
         const texto = input.value.trim();
