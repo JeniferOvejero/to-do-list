@@ -52,22 +52,22 @@
                 input.value = '';
             }
         });
-    });
 
-    //Marcar como concluídas.
-    document.addEventListener('DOMContentLoaded', function(){
-        const checkboxes = document.querySelectorAll('.tarefa');
+        //Marcar como concluídas. Delegação de Eventos
+        lista.addEventListener('change', function (event) {
+            if (event.target && event.target.matches('input[type="checkbox"].tarefa')) {
+                const checkbox = event.target;
+                const label = checkbox.nextElementSibling;
 
-        checkboxes.forEach(checkbox => {
-            checkbox.addEventListener('change', function() {
-                if (this.checked){
-                    this.nextElementSibling.style.textDecoration = 'line-through';
+                if (checkbox.checked) {
+                    label.style.textDecoration = 'line-through';
                 } else {
-                    this.nextElementSibling.style.textDecoration = 'none';
+                    label.style.textDecoration = 'none';
                 }
-            });
+            }
         });
     });
+
     //Remover tarefas.
 </script>
 </html>
