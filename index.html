@@ -23,6 +23,7 @@
                 <li class="tarefa-item">
                     <input type="checkbox" id="tarefa1" class="tarefa"/>
                     <label for="tarefa1">Tarefa 1</label>
+                    <button class="remover">🗑</button>
                 </li>
             </ul>
         </div>
@@ -46,6 +47,7 @@
                 li.innerHTML = `
                     <input type="checkbox" id="${idTarefa}" class="tarefa""/>
                     <label for="${idTarefa}">${texto}</label>
+                    <button class="remover">🗑</button>
                 `;
 
                 lista.appendChild(li);
@@ -53,7 +55,7 @@
             }
         });
 
-        //Marcar como concluídas. Delegação de Eventos
+        //Marcar como concluídas. Delegação de Eventos.
         lista.addEventListener('change', function (event) {
             if (event.target && event.target.matches('input[type="checkbox"].tarefa')) {
                 const checkbox = event.target;
@@ -66,8 +68,18 @@
                 }
             }
         });
+
+        //Remover tarefas. Delegação de Eventos.
+        lista.addEventListener('click', function (event) {
+            if (event.target && event.target.matches('button.remover')) {
+                const li = event.target.closest('li');
+                if (li) {
+                    li.remove();
+                }
+            }
+        });
+
     });
 
-    //Remover tarefas.
 </script>
 </html>
