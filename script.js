@@ -1,0 +1,52 @@
+document.addEventListener('DOMContentLoaded', function(){
+    const input = document.getElementById('nova-tarefa');
+    const botao = document.getElementById('adiciona-tarefa');
+    const lista = document.getElementById('lista-tarefas');
+    
+    //Adicionar tarefas.
+    botao.addEventListener('click', function() {
+        const texto = input.value.trim();
+
+        if (texto !== ''){
+            const idTarefa = 'tarefa-' + Date.now();
+            const li = document.createElement('li');
+            li.className = "tarefa-item";
+
+            li.innerHTML = `
+                <span>
+                <input type="checkbox" id="${idTarefa}" class="tarefa""/>
+                <label for="${idTarefa}">${texto}</label>
+                </span>
+                <button class="remover">⛔</button>
+            `;
+
+            lista.appendChild(li);
+            input.value = '';
+        }
+    });
+
+    //Marcar como concluídas. Delegação de Eventos.
+    lista.addEventListener('change', function (event) {
+        if (event.target && event.target.matches('input[type="checkbox"].tarefa')) {
+            const checkbox = event.target;
+            const label = checkbox.nextElementSibling;
+
+            if (checkbox.checked) {
+                label.style.textDecoration = 'line-through';
+            } else {
+                label.style.textDecoration = 'none';
+            }
+        }
+    });
+
+    //Remover tarefas. Delegação de Eventos.
+    lista.addEventListener('click', function (event) {
+        if (event.target && event.target.matches('button.remover')) {
+            const li = event.target.closest('li');
+            if (li) {
+                li.remove();
+            }
+        }
+    });
+
+});
