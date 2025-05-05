@@ -3,24 +3,50 @@ document.addEventListener('DOMContentLoaded', function(){
     const botao = document.getElementById('adiciona-tarefa');
     const lista = document.getElementById('lista-tarefas');
     
+    function criarItem(tarefa) {
+        const li = document.createElement('li');
+        li.className = 'tarefa-item';
+
+        li.innerHTML = `
+            <span>
+                <input type="checkbox" id="${tarefa.id}" class="tarefa" ${tarefa.concluida ? 'checked' : ''}/>
+                <label for="${tarefa.id}">${tarefa.texto}</label>
+            </span>
+            <button class="remover">⛔</button>
+        `;
+
+        lista.appendChild(li);
+    }
+
+    //Carregar tarefas do LocalStorage
+    function carregarTarefas(){
+        const tarefasArmazenadas = JSON.parse(localStorage.getItem('tarefas')) || [];
+
+        tarefasArmazenadas.forEach(tarefa => {
+            criarItem(tarefa);
+        })
+    }
+
+    carregarTarefas();
+
     //Adicionar tarefas.
     botao.addEventListener('click', function() {
         const texto = input.value.trim();
 
         if (texto !== ''){
             const idTarefa = 'tarefa-' + Date.now();
-            const li = document.createElement('li');
-            li.className = "tarefa-item";
+            const tarefa = {
+                id: idTarefa,
+                texto: texto,
+                concluida: false
+            };
 
-            li.innerHTML = `
-                <span>
-                <input type="checkbox" id="${idTarefa}" class="tarefa""/>
-                <label for="${idTarefa}">${texto}</label>
-                </span>
-                <button class="remover">⛔</button>
-            `;
+            //salvar no LocalStorage
+            const tarefasArmazenadas = JSON.parse(localStorage.getItem('tarefas')) || [];
+            tarefasArmazenadas.push(tarefa);
+            localStorage.setItem('tarefas', JSON.stringify(tarefasArmazenadas));
 
-            lista.appendChild(li);
+            criarItem(tarefa);
             input.value = '';
         }
     });
