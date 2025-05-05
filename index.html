@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <div id="container">
+        
+        <h1>To-do List</h1>
+
+        <div id="div-input">
+            <input
+                type="text"
+                id="nova-tarefa"/>
+            <button id="adiciona-tarefa" type="button">Adicionar</button>
+        </div>
+
+        <div id="div-lista">
+            <ul id="lista-tarefas">
+                <li class="tarefa-item">
+                    <input type="checkbox" id="tarefa1" class="tarefa"/>
+                    <label for="tarefa1">Tarefa 1</label>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+<script>
+    //Adicionar tarefas.
+    
+    //Marcar como concluídas.
+    document.addEventListener('DOMContentLoaded', function(){
+        const checkboxes = document.querySelectorAll('.tarefa');
+
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                if (this.checked){
+                    this.nextElementSibling.style.textDecoration = 'line-through';
+                } else {
+                    this.nextElementSibling.style.textDecoration = 'none';
+                }
+            });
+        });
+    });
+    //Remover tarefas.
+</script>
+</html>
