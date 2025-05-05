@@ -30,7 +30,30 @@
 </body>
 <script>
     //Adicionar tarefas.
-    
+    document.addEventListener('DOMContentLoaded', function(){
+        const input = document.getElementById('nova-tarefa');
+        const botao = document.getElementById('adiciona-tarefa');
+        const lista = document.getElementById('lista-tarefas');
+        
+        botao.addEventListener('click', function() {
+            const texto = input.value.trim();
+
+            if (texto !== ''){
+                const idTarefa = 'tarefa-' + Date.now();
+                const li = document.createElement('li');
+                li.className = "tarefa-item";
+
+                li.innerHTML = `
+                    <input type="checkbox" id="${idTarefa}" class="tarefa""/>
+                    <label for="${idTarefa}">${texto}</label>
+                `;
+
+                lista.appendChild(li);
+                input.value = '';
+            }
+        });
+    });
+
     //Marcar como concluídas.
     document.addEventListener('DOMContentLoaded', function(){
         const checkboxes = document.querySelectorAll('.tarefa');
