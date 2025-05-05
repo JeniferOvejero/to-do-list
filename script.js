@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function(){
         li.innerHTML = `
             <span>
                 <input type="checkbox" id="${tarefa.id}" class="tarefa" ${tarefa.concluida ? 'checked' : ''}/>
-                <label for="${tarefa.id}">${tarefa.texto}</label>
+                <label for="${tarefa.id}"style="text-decoration: ${tarefa.concluida ? 'line-through' : 'none'}">${tarefa.texto}</label>
             </span>
             <button class="remover">⛔</button>
         `;
@@ -56,22 +56,38 @@ document.addEventListener('DOMContentLoaded', function(){
         if (event.target && event.target.matches('input[type="checkbox"].tarefa')) {
             const checkbox = event.target;
             const label = checkbox.nextElementSibling;
+            const idTarefa = checkbox.id;
 
             if (checkbox.checked) {
                 label.style.textDecoration = 'line-through';
             } else {
                 label.style.textDecoration = 'none';
             }
+
+            //atualiza LocalStorage
+            const tarefasArmazenadas = JSON.parse(localStorage.getItem('tarefas')) || [];
+            const tarefaIndex = tarefasArmazenadas.findIndex(t => t.id === idTarefa);
+            if (tarefaIndex !== -1){
+                tarefasArmazenadas[tarefaIndex].concluida = checkbox.checked;
+                localStorage.setItem('tarefas', JSON.stringify(tarefasArmazenadas));
+            }
         }
+
     });
 
     //Remover tarefas. Delegação de Eventos.
     lista.addEventListener('click', function (event) {
         if (event.target && event.target.matches('button.remover')) {
             const li = event.target.closest('li');
-            if (li) {
-                li.remove();
-            }
+            const idTarefa = li.querySelector('input[type="checkbox"]').id;
+
+            //atualiza LocalStorage
+            const tarefasArmazenadas = JSON.parse(localStorage.getItem('tarefas')) || [];
+            const tarefasAtualizadas = tarefasArmazenadas.filter(tarefa => tarefa.id !== idTarefa);
+            localStorage.setItem('tarefas', JSON.stringify(tarefasAtualizadas));
+
+            li.remove();
+
         }
     });
 
